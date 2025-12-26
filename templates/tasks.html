@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header>
+  <h1>🚀 To-Do Control Panel</h1>
+  <div style="display:flex; gap:10px;">
+    <a href="/add" class="btn">+ Add Task</a>
+    <button class="btn" onclick="toggleTheme()">☀️ / 🌙</button>
+  </div>
+</header>
+
+
+<!-- ===== TABS ===== -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('all', this)">📋 All</button>
+  <button class="tab-btn" onclick="showTab('pending', this)">🕒 Pending</button>
+  <button class="tab-btn" onclick="showTab('completed', this)">✅ Completed</button>
+</div>
+
+<!-- ===== ALL TASKS ===== -->
+<div id="all" class="tab-content active">
+  <div class="task-list">
+    {% for task in tasks %}
+      <div class="task-card">
+        <div class="task-title">{{ task.title }}</div>
+
+        <div class="task-meta">
+          Due: {{ task.due_date or "N/A" }} <br>
+          <span class="status-badge 
+            {% if task.status == 'completed' %}
+              status-completed
+            {% else %}
+              status-pending
+            {% endif %}
+          ">
+            {{ task.status | capitalize }}
+          </span>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          {% if task.status != "completed" %}
+            <button class="btn" onclick="markComplete({{ task.id }})">
+              ✔ Complete
+            </button>
+          {% endif %}
+          <button class="btn" onclick="deleteTask({{ task.id }})">
+            🗑 Delete
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ===== PENDING TASKS ===== -->
+<div id="pending" class="tab-content">
+  <div class="task-list">
+    {% for task in tasks %}
+      {% if task.status != "completed" %}
+        <div class="task-card">
+          <div class="task-title">{{ task.title }}</div>
+
+          <div class="task-meta">
+            Due: {{ task.due_date or "N/A" }} <br>
+            <span class="status-badge status-pending">Pending</span>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <button class="btn" onclick="markComplete({{ task.id }})">
+              ✔ Complete
+            </button>
+            <button class="btn" onclick="deleteTask({{ task.id }})">
+              🗑 Delete
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ===== COMPLETED TASKS ===== -->
+<div id="completed" class="tab-content">
+  <div class="task-list">
+    {% for task in tasks %}
+      {% if task.status == "completed" %}
+        <div class="task-card">
+          <div class="task-title">{{ task.title }}</div>
+
+          <div class="task-meta">
+            Due: {{ task.due_date or "N/A" }} <br>
+            <span class="status-badge status-completed">Completed</span>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button class="btn" onclick="deleteTask({{ task.id }})">
+              🗑 Delete
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+function showTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function deleteTask(id) {
+  fetch(`/api/tasks/${id}`, { method: "DELETE" })
+    .then(() => location.reload());
+}
+
+function markComplete(id) {
+  fetch(`/api/tasks/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: "completed" })
+  }).then(() => location.reload());
+}
+
+</script>
+
+{% endblock %}

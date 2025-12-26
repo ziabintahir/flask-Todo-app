@@ -1,0 +1,256 @@
+/* ===== Global ===== */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f2027, #000);
+  color: #e6f1ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== Glass Container ===== */
+.app-container {
+  width: 90%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+}
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: #7df9ff;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00f5ff, #7a5cff);
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.7);
+}
+
+/* ===== Task List ===== */
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.task-card {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 18px rgba(122, 92, 255, 0.6);
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.task-meta {
+  font-size: 0.85rem;
+  color: #a0bcd9;
+  margin-top: 6px;
+}
+
+/* ===== Form ===== */
+.form-group {
+  margin-bottom: 14px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9fb6cc;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+/* ===== Tabs ===== */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #e6f1ff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #00f5ff, #7a5cff);
+  color: #000;
+}
+
+/* ===== Tab Content ===== */
+/* ===== Tab Transition (FIXED) ===== */
+.tab-content {
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.tab-content.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+/* ===== Tab Transitions ===== */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ===== Apple-style Light Mode ===== */
+body.light {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+/* App container */
+body.light .app-container {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Cards */
+body.light .task-card {
+  background: #fafafa;
+  border: 1px solid #e5e5ea;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* Titles */
+body.light .task-title {
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+/* Meta text */
+body.light .task-meta {
+  color: #6e6e73;
+}
+
+/* Buttons (Apple-like) */
+body.light .btn {
+  background: #007aff;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+body.light .btn:hover {
+  background: #0063cc;
+}
+
+/* Tabs */
+body.light .tab-btn {
+  background: #ffffff;
+  color: #1d1d1f;
+  border: 1px solid #d1d1d6;
+  border-radius: 14px;
+}
+
+body.light .tab-btn.active {
+  background: #007aff;
+  color: #ffffff;
+  border: none;
+}
+
+/* Status badges */
+body.light .status-pending {
+  background: #fff4cc;
+  color: #8a6d00;
+}
+
+body.light .status-completed {
+  background: #d1f7e2;
+  color: #0a7a43;
+}
+/* ===== Light Mode Form Fix ===== */
+body.light input,
+body.light textarea {
+  background: #ffffff;
+  color: #1d1d1f;
+  border: 1px solid #d1d1d6;
+}
+
+body.light input::placeholder,
+body.light textarea::placeholder {
+  color: #8e8e93;
+}
+
+body.light input:focus,
+body.light textarea:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
+}
